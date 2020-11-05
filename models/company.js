@@ -33,5 +33,17 @@ class Company {
         }
     */
 
-    
+    /*
+        async static all() {
+
+        }
+    */
+
+    /*
+        async static get() {
+            //returns one
+        }
+    */
+
+
 }
