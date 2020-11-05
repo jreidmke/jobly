@@ -1,3 +1,35 @@
 \c jobly
 
-DROP TABLE IF EXISTS companies
+DROP TABLE IF EXISTS companies;
+DROP TABLE IF EXISTS jobs;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE companies(
+    handle TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    num_employees INT,
+    description TEXT,
+    logo_url TEXT
+);
+
+CREATE TABLE jobs(
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    salary FLOAT NOT NULL,
+    equity FLOAT NOT NULL, --constraing equity < 1
+    company_handle TEXT REFERENCES companies(handle),
+    date_posted DATE default CURRENT_TIMESTAMP,
+    
+);
+
+CREATE TABLE users(
+    username TEXT PRIMARY KEY,
+    password TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    photo_url TEXT,
+    is_admin BOOLEAN NOT NULL default FALSE
+);
+
+\dt
