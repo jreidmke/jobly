@@ -45,5 +45,15 @@ class Company {
         }
     */
 
+    /*
+        async static add() {
+            //INSERT INTO companies...
+        }
+
+        async static remove() {
+            //DELETE FROM companies WHERE name=blah
+        }
+    */
+
 
 }
