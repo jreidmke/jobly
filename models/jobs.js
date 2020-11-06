@@ -1,59 +1,57 @@
 //import db maybe some other stuff
 
-class Company {
-
-
-    //async static search{
-
-    //makes a db.query and returns a "filtered list of handles and names"
-
-    //OOOOOOOH WEE, we're gonna have to do some of that weird SQL stuff with words and stuff.
-
-    // So it'll be something like
-
-    //SELECT handle, name FROM companies WHERE name LIKE "%{name}%";}
+class Jobs {
 
     /*
-        async static min_employees {
+        async static createJob() {
+            INSERT INTO jobs BLASH
+
+            return {job: job data}
+        }
+
+        async static search() {
+            SELECT handle, name FROM jobs WHERE title LIKE "%{blah}%";
+
+            return {jobs: [job, ...]}
+        }
+
+        async static min_salary() {
             SELECT c.handles, j.titles
             FROM companies AS c
             JOIN jobs AS j
             ON c.handle=j.company_handle
-            WHERE c.min_employees > {WHATEVER IS PASSED IN QUERY STRING}
-        }
-    */
+            WHERE j.min_salary > {WHATEVER IS PASSED IN QUERY STRING}
 
-    /*
-        async static max_employees {
+            return {jobs: [job, ...]}
+        }
+
+        async static min_equity() {
             SELECT c.handles, j.titles
             FROM companies AS c
             JOIN jobs AS j
             ON c.handle=j.company_handle
-            WHERE c.min_employees < {WHATEVER IS PASSED IN QUERY STRING}
+            WHERE j.min_equity < {WHATEVER IS PASSED IN QUERY STRING}
+
+            return {jobs: [job, ...]}
         }
-    */
 
-    /*
-        async static all() {
-
-        }
-    */
-
-    /*
         async static get() {
-            //returns one
-        }
-    */
+            SELECT * FROM jobs WHERE id=blah
 
-    /*
-        async static add() {
-            //INSERT INTO companies...
+            {job: jobData}
+        }
+
+        async static edit() {
+            UPDATE blah blah blah
+            you'll have to integrate that helpers/partialUpdate bad boy. so make sure to put on your importing hat
+            {job: jobData}
         }
 
         async static remove() {
-            //DELETE FROM companies WHERE name=blah
+            DELETE FROM jobs WHERE id=BLAH
+            return {message: "Job deleted"}
         }
-    */
 
+    */
 
 }
