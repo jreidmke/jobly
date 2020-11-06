@@ -5,15 +5,9 @@ class Company {
 
     //async static search{
 
-    //makes a db.query and returns a "filtered list of handles and names"
+        //SELECT handle, name FROM companies WHERE name LIKE "%{name}%";}
 
-    //OOOOOOOH WEE, we're gonna have to do some of that weird SQL stuff with words and stuff.
-
-    // So it'll be something like
-
-    //SELECT handle, name FROM companies WHERE name LIKE "%{name}%";}
-
-    /*
+        /*
         async static min_employees {
             SELECT c.handles, j.titles
             FROM companies AS c
@@ -42,6 +36,7 @@ class Company {
     /*
         async static get() {
             //returns one
+            return {company: {...companyData, jobs: [job, ...]}}
         }
     */
 
