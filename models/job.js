@@ -1,6 +1,7 @@
 //import db maybe some other stuff
 const db = require("../db");
 const ExpressError = require("../helpers/ExpressError");
+const sqlForPartialUpdate = require("../helpers/partialUpdate");
 
 class Job {
 
