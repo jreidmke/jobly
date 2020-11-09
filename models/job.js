@@ -2,32 +2,19 @@
 const db = require("../db");
 const ExpressError = require("../helpers/ExpressError");
 
-class Jobs {
+class Job {
 
     static async createJob(data) {
         const resp = await db.query(
             `INSERT INTO jobs
             (title, salary, equity, company_handle)
             VALUES($1, $2, $3, $4)
-            RETURNING title, salary, equity, company_handle, date_created`,
+            RETURNING title, salary, equity, company_handle, date_posted`,
             [data.title, data.salary, data.equity, data.company_handle]
         );
         return resp.rows;
 
     }
-    /*
-        async static createJob() {
-            INSERT INTO jobs BLASH
-
-            return {job: job data}
-        }
-
-        async static search() {
-            SELECT handle, name FROM jobs WHERE title LIKE "%{blah}%";
-
-            return {jobs: [job, ...]}
-        }
-    */
 
     static async search(term) {
         const resp = await db.query(
@@ -91,3 +78,5 @@ class Jobs {
     }
 
 }
+
+module.exports=Job;
