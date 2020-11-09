@@ -69,28 +69,17 @@ class Jobs {
         return resp.rows;
     }
 
-    /*
+   static async update(id, data) {
+        let { query, values } = sqlForPartialUpdate("jobs", data, "id", id);
 
+        const result = await db.query(query, values);
+        const job = result.rows[0];
 
-        async static edit() {
-            UPDATE blah blah blah
-            you'll have to integrate that helpers/partialUpdate bad boy. so make sure to put on your importing hat
-            {job: jobData}
+        if (!job) {
+        throw new ExpressError(`There exists no job '${id}`, 404);
         }
 
-    */
-
-   static async update(id, data) {
-    let { query, values } = sqlForPartialUpdate("jobs", data, "id", id);
-
-    const result = await db.query(query, values);
-    const job = result.rows[0];
-
-    if (!job) {
-      throw new ExpressError(`There exists no job '${id}`, 404);
-    }
-
-    return job;
+        return job;
   }
 
     static async remove(id) {
