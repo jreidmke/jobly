@@ -6,6 +6,8 @@ const SECRET_KEY = process.env.SECRET_KEY || "test";
 
 const PORT = +process.env.PORT || 3000;
 
+let baseURL = `postgresql://postgres:postgres4@localhost/`;
+
 // database is:
 //
 // - on Heroku, get from env var DATABASE_URL
@@ -15,9 +17,9 @@ const PORT = +process.env.PORT || 3000;
 let DB_URI;
 
 if (process.env.NODE_ENV === "test") {
-  DB_URI = "jobly-test";
+  DB_URI = `${baseURL}jobly-test`;
 } else {
-  DB_URI = process.env.DATABASE_URL || "jobly";
+  DB_URI = process.env.DATABASE_URL || `${baseURL}jobly`;
 }
 
 module.exports = {
