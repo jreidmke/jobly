@@ -1,8 +1,8 @@
 \c jobly
 
-DROP TABLE IF EXISTS companies;
-DROP TABLE IF EXISTS jobs;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS companies CASCADE;
+DROP TABLE IF EXISTS jobs CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE companies(
     handle TEXT PRIMARY KEY,
@@ -30,5 +30,12 @@ CREATE TABLE users(
     photo_url TEXT,
     is_admin BOOLEAN NOT NULL default FALSE
 );
+
+INSERT INTO companies
+VALUES('apple', 'Apple', 250, 'We make bad computers', 'google.com'),
+('pizza', 'Pizza Co.', 10000, 'We make bad pizza', 'pizza.org'),
+('biden', 'Biden Biz.', 600, 'We make good choices', 'biden.com');
+
+SELECT * FROM companies;
 
 \dt
