@@ -36,6 +36,13 @@ VALUES('apple', 'Apple', 250, 'We make bad computers', 'google.com'),
 ('pizza', 'Pizza Co.', 10000, 'We make bad pizza', 'pizza.org'),
 ('biden', 'Biden Biz.', 600, 'We make good choices', 'biden.com');
 
+INSERT INTO jobs(title, salary, equity, company_handle)
+VALUES('cleaner', 49.15, .5, 'apple'),
+('builder guy', 15.83, .2, 'pizza'),
+('machine guy', 20.59, .3, 'biden');
+
 SELECT * FROM companies;
+SELECT * FROM jobs;
+
 
 \dt
