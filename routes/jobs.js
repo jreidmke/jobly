@@ -35,4 +35,26 @@ router.post('/', async(req, res, next) => {
     }
 })
 
+router.patch('/:id', async function(req, res, next) {
+    try {
+      if ('id' in req.body) {
+        throw new ExpressError('You are not allowed to change the ID', 400);
+      }
+
+      const job = await Job.update(req.params.id, req.body);
+      return res.json({ job });
+    } catch (err) {
+      return next(err);
+    }
+  });
+
+router.delete('/:id', async(req, res, next) => {
+    try {
+        await Job.remove(req.params.id);
+        return res.json({message: "Deleted"});
+    } catch (error) {
+        return next(error);
+    }
+})
+
 module.exports = router;
