@@ -41,7 +41,7 @@ class Company {
     */
 
     /*
-        async static add() {
+        async static create() {
             //INSERT INTO companies...
         }
 
