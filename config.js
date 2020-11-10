@@ -22,8 +22,11 @@ if (process.env.NODE_ENV === "test") {
   DB_URI = process.env.DATABASE_URL || `${baseURL}jobly`;
 }
 
+const BCRYPT_WORK_FACTOR = 12;
+
 module.exports = {
   SECRET_KEY,
   PORT,
-  DB_URI
+  DB_URI,
+  BCRYPT_WORK_FACTOR
 };
