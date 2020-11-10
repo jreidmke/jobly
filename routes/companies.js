@@ -1,26 +1,11 @@
-//import my stuffs
 const express = require('express');
 const router = express.Router();
 const ExpressError = require('../helpers/expressError');
 const Company = require('../models/company');
-
-//ok psuedo code!
+const {validate} = require('jsonschema');
+const {newCompany} = require('../schema');
 
 router.get('/', async(req, res, next) => {
-    /* This is where you are going to check for query strings
-
-    IF query string is search:
-        Company.search()
-
-    If query string is min_employ:
-        Company.min_employees
-
-    If query string is max_employ:
-        Company.max_employ
-
-    IF min > max:
-        Throw a 404
-        */
     try {
         if('search' in req.query) {
             return res.json(await Company.search(req.query.search));
@@ -41,21 +26,17 @@ router.get('/', async(req, res, next) => {
 
 })
 
-//IN THIS ROUTE, MAKE SURE TO INCLUDE JSON VALIDATION FROM JSONSCH3MA
 router.post('/', async(req, res, next) => {
-    // create a new company
-    /*
-        Compnay.create()
-    */
    try {
-    const company = await Company.create(req.body);
-    return res.status(201).json({company});
+        const validation = validate(req.body, newCompany);
+        if(!validation.valid) {
+            throw new ExpressError(validation.errors.map(error => error.stack), 400);
+        }
+        const company = await Company.create(req.body);
+        return res.status(201).json({company});
    } catch (error) {
-    return next(error);
+        return next(error);
    }
-
-
-    //return json of {company: {handle:, name:, etc...}}
 })
 
 router.get('/:handle', async(req, res, next) => {
