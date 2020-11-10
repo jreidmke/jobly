@@ -10,7 +10,6 @@ const router = express.Router({ mergeParams: true });
 router.get('/', async(req, res, next) => {
     try {
         if('search' in req.query) {
-            console.log(req.query);
             return res.json(await Job.search(req.query.search));
         }
         else if('min_salary' in req.query) {
@@ -24,6 +23,14 @@ router.get('/', async(req, res, next) => {
         }
     } catch (error) {
         return next(error)
+    }
+})
+
+router.get('/:id', async(req, res, next) => {
+    try {
+        return res.json(await Job.get(req.params.id));
+    } catch (error) {
+        return next(error);
     }
 })
 
