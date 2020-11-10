@@ -4,11 +4,6 @@ const ExpressError = require("../helpers/ExpressError");
 const sqlForPartialUpdate = require("../helpers/partialUpdate");
 
 class Company {
-
-
-    //static async search{
-
-        //SELECT handle, name FROM companies WHERE name LIKE "%{name}%";}
     static async search(term) {
         const resp = await db.query(
             `SELECT handle, name
@@ -19,15 +14,6 @@ class Company {
         return resp.rows;
     }
 
-        /*
-        static async min_employees {
-            SELECT c.handles, j.titles
-            FROM companies AS c
-            JOIN jobs AS j
-            ON c.handle=j.company_handle
-            WHERE c.min_employees > {WHATEVER IS PASSED IN QUERY STRING}
-        }
-    */
    static async min_employees(min) {
         const resp = await db.query(`
             SELECT handle, name
@@ -38,15 +24,6 @@ class Company {
         return resp.rows;
    }
 
-    /*
-        static async max_employees {
-            SELECT c.handles, j.titles
-            FROM companies AS c
-            JOIN jobs AS j
-            ON c.handle=j.company_handle
-            WHERE c.min_employees < {WHATEVER IS PASSED IN QUERY STRING}
-        }
-    */
    static async max_employees(max) {
         const resp = await db.query(`
         SELECT handle, name
@@ -73,13 +50,6 @@ class Company {
        return resp.rows;
    }
 
-    /*
-        static async get() {
-            //returns one
-            return {company: {...companyData, jobs: [job, ...]}}
-        }
-    */
-
    static async get(handle) {
        const comResp = await db.query(
             `SELECT handle, name, num_employees, description
@@ -103,18 +73,6 @@ class Company {
         company.jobs = jobsResp.rows;
         return company;
    }
-
-    /*
-        static async create() {
-            //INSERT INTO companies...
-        }
-
-
-
-        static async remove() {
-            //DELETE FROM companies WHERE name=blah
-        }
-    */
 
    static async update(handle, data) {
     let { query, values } = sqlForPartialUpdate(
