@@ -1,14 +1,17 @@
+const db = require("../db");
+const ExpressError = require("../helpers/ExpressError");
+
+class User {
+    
+}
 /*
-
-    import!!!!!!!!!!
-
     class User {
 
         static async register() {
             INSERT INTO users BLAH
 
             ALSO GOING TO HAVE TO DO BCRYPT STUFF IN HERE
-            
+
             return {user: user}
         }
 
