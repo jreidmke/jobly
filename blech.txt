@@ -1,0 +1,5 @@
+Alright.
+
+First thing. Finish user stuff. Oh boy. This is gonna suck. 
+
+So that's user model first, then user routes. Cool

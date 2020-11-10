@@ -28,7 +28,7 @@ CREATE TABLE users(
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     photo_url TEXT,
-    is_admin BOOLEAN NOT NULL default FALSE
+    is_admin BOOLEAN default FALSE
 );
 
 INSERT INTO companies
