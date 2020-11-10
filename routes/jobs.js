@@ -2,8 +2,9 @@ const express = require('express');
 const ExpressError = require('../helpers/ExpressError');
 // const { adminRequired, authRequired } = require('../middleware/auth');
 const Job = require('../models/Job');
-// const { validate } = require('jsonschema');
-// const { jobNewSchema, jobUpdateSchema } = require('../schemas');
+const { validate } = require('jsonschema');
+const newJob = require('../schema/newJob.json');
+const updateJob = require('../schema/')
 
 const router = express.Router({ mergeParams: true });
 
@@ -47,6 +48,7 @@ router.patch('/:id', async function(req, res, next) {
       if ('id' in req.body) {
         throw new ExpressError('You are not allowed to change the ID', 400);
       }
+
 
       const job = await Job.update(req.params.id, req.body);
       return res.json({ job });
