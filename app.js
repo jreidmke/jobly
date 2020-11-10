@@ -22,7 +22,8 @@ app.use('/jobs', jobsRoutes);
 const userRoutes = require('./routes/users');
 app.use('/users', userRoutes);
 
-
+const authRoutes = require('./routes/auth');
+app.use('/', authRoutes);
 
 /** 404 handler */
 
