@@ -45,7 +45,7 @@ class User {
 
     static async all() {
         const resp = await db.query(
-            `SELCT username, first_name, last_name, email
+            `SELECT username, first_name, last_name, email
             FROM users`
         );
         return resp.rows;
@@ -58,10 +58,23 @@ class User {
             WHERE username=$1`,
             [username]
         );
+        if(resp.rows.length === 0) {
+            throw new ExpressError('Invalid username', 404);
+        }
         return resp.rows[0];
     }
 
     static async remove(username) {
+        const pkCheck = await db.query(
+            `SELECT *
+            FROM users
+            WHERE username=$1`,
+            [username]
+        );
+        if(pkCheck.rows.length === 0) {
+            throw new ExpressError('Invalid username', 404);
+        }
+
         await db.query(
             `DELETE FROM users
             WHERE username=$1`,
@@ -92,18 +105,3 @@ class User {
 }
 
 module.exports = User;
-/*
-
-
-        static async update() {
-            UPDATE blah blah blah
-            return {user: {username, first_name, last_name, email, photo_url}}
-        }
-
-        static async remove() {
-            DELETE FROM users WHERE username=BLAH;
-            return {message: "User deleted"}
-        }
-    }
-
-*/
