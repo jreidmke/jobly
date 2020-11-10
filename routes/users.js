@@ -5,6 +5,8 @@ const User = require('../models/user');
 const {validate} = require('jsonschema');
 const newUser = require('../schema/newUser.json');
 const updateUser = require('../schema/updateUser.json');
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require('../config');
 
 router.get('/', async(req, res, next) => {
     try {
@@ -28,7 +30,10 @@ router.post('/', async(req, res, next) => {
         if(!validation.valid) {
             throw new ExpressError(validation.errors.map(error => error.stack), 400);
         }
-        return res.json(await User.register(req.body));
+        const user = User.register(req.body);
+        let payload = {username: user.user, is_admin: user.is_admin};
+        const token = jwt.sign(payload, SECRET_KEY);
+        return res.status(201).json({ token });
     } catch (error) {
         return next(error);
     }
