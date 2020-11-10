@@ -1,9 +1,6 @@
 //import my stuffs
 const express = require('express');
-const { query } = require('../db');
-const db = require('../db');
 const router = express.Router();
-
 const ExpressError = require('../helpers/expressError');
 const Company = require('../models/company');
 
