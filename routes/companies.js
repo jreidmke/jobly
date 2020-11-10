@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const ExpressError = require('../helpers/expressError');
 const Company = require('../models/company');
-const {validate} = require('jsonschema');
-const {newCompany} = require('../schema');
+const { validate } = require('jsonschema');
+// const {  } = require('../schema');
+const { newCompany, updateCompany } = require('../schema');
+
 
 router.get('/', async(req, res, next) => {
     try {
