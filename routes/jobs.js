@@ -5,10 +5,11 @@ const Job = require('../models/Job');
 const { validate } = require('jsonschema');
 const newJob = require('../schema/newJob.json');
 const updateJob = require('../schema/updateJob.json');
+const {auth} = require('../middleware/auth');
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/', async(req, res, next) => {
+router.get('/', auth, async(req, res, next) => {
     try {
         if('search' in req.query) {
             return res.json(await Job.search(req.query.search));
