@@ -28,7 +28,7 @@ CREATE TABLE users(
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     photo_url TEXT,
-    is_admin BOOLEAN default FALSE
+    is_admin BOOLEAN NOT NULL default FALSE
 );
 
 INSERT INTO companies
@@ -41,8 +41,12 @@ VALUES('cleaner', 49.15, .5, 'apple'),
 ('builder guy', 15.83, .2, 'pizza'),
 ('machine guy', 20.59, .3, 'biden');
 
+INSERT INTO users
+VALUES('jreid', 'pizza', 'James', 'Reid', 'jreidmke@gamil.com', 'blah', true),
+('mariaa', 'pizza', 'Maria', 'Aldapa', 'mariaa@gmail.com', 'blah', FALSE);
+
 SELECT * FROM companies;
 SELECT * FROM jobs;
-
+SELECT * FROM users;
 
 \dt
