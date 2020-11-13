@@ -71,5 +71,6 @@ describe("POST /users", () => {
         };
         const resp = await request(app).post(`/users`).send(data);
         expect(resp.statusCode).toBe(201);
+        expect(resp.body).any(String);
     })
 })
