@@ -71,6 +71,17 @@ describe("POST /users", () => {
         };
         const resp = await request(app).post(`/users`).send(data);
         expect(resp.statusCode).toBe(201);
-        expect(resp.body).any(String);
+        expect(resp.body).toEqual(expect.objectContaining({token: expect.any(String)}));
+
+        const getResp = await request(app).get(`/users/${data.username}`);
+        expect(getResp.statusCode).toBe(200);
+        expect(getResp.body.username).toBe(data.username);
+        expect(getResp.body.email).toBe(data.email);
+    })
+
+    test("should return error with bad json", async() => {
+        const data = {
+            "blah": "blegh"
+        }
     })
 })
