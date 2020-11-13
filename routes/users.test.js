@@ -83,5 +83,7 @@ describe("POST /users", () => {
         const data = {
             "blah": "blegh"
         }
+        const resp = await request(app).post(`/users`).send(data);
+        expect(resp.statusCode).toBe(400);
     })
 })
