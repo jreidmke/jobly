@@ -22,7 +22,7 @@ class User {
         const resp = await db.query(
             `INSERT INTO users
             VALUES($1, $2, $3, $4, $5, $6, $7)
-            RETURNING username, first_name, last_name, email`,
+            RETURNING username, first_name, last_name, email, is_admin`,
             [username, hashword, first_name, last_name, email, photo_url, is_admin]
         );
         return resp.rows[0];

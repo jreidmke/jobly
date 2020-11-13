@@ -1,13 +1,11 @@
 const express = require('express');
 const ExpressError = require('../helpers/ExpressError');
-// const { adminRequired, authRequired } = require('../middleware/auth');
 const Job = require('../models/Job');
 const { validate } = require('jsonschema');
 const newJob = require('../schema/newJob.json');
 const updateJob = require('../schema/updateJob.json');
-const {auth} = require('../middleware/auth');
-
-const router = express.Router({ mergeParams: true });
+const {auth, admin} = require('../middleware/auth');
+const router = express.Router();
 
 router.get('/', auth, async(req, res, next) => {
     try {
@@ -28,7 +26,7 @@ router.get('/', auth, async(req, res, next) => {
     }
 })
 
-router.get('/:id', async(req, res, next) => {
+router.get('/:id', auth, async(req, res, next) => {
     try {
         return res.json(await Job.get(req.params.id));
     } catch (error) {
@@ -36,7 +34,7 @@ router.get('/:id', async(req, res, next) => {
     }
 })
 
-router.post('/', async(req, res, next) => {
+router.post('/', admin, async(req, res, next) => {
     try {
         const validation = validate(req.body, newJob);
         if(!validation.valid) {
@@ -48,7 +46,7 @@ router.post('/', async(req, res, next) => {
     }
 })
 
-router.patch('/:id', async function(req, res, next) {
+router.patch('/:id', admin, async function(req, res, next) {
     try {
       if ('id' in req.body) {
         throw new ExpressError('You are not allowed to change the ID', 400);
@@ -64,7 +62,7 @@ router.patch('/:id', async function(req, res, next) {
     }
   });
 
-router.delete('/:id', async(req, res, next) => {
+router.delete('/:id', admin, async(req, res, next) => {
     try {
         await Job.remove(req.params.id);
         return res.json({message: "Deleted"});

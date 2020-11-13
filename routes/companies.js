@@ -5,9 +5,10 @@ const Company = require('../models/company');
 const { validate } = require('jsonschema');
 const newCompany = require('../schema/newCompany.json');
 const updateCompany = require('../schema/updateCompany.json');
+const {auth, admin} = require('../middleware/auth');
 
 
-router.get('/', async(req, res, next) => {
+router.get('/', auth, async(req, res, next) => {
     try {
         if('search' in req.query) {
             return res.json(await Company.search(req.query.search));
@@ -28,7 +29,17 @@ router.get('/', async(req, res, next) => {
 
 })
 
-router.post('/', async(req, res, next) => {
+router.get('/:handle', auth, async(req, res, next) => {
+    try {
+        const resp = await Company.get(req.params.handle);
+        return res.json({company: resp});
+    } catch (error) {
+        return next(error);
+    }
+})
+
+
+router.post('/', admin, async(req, res, next) => {
    try {
         const validation = validate(req.body, newCompany);
         if(!validation.valid) {
@@ -41,16 +52,8 @@ router.post('/', async(req, res, next) => {
    }
 })
 
-router.get('/:handle', async(req, res, next) => {
-    try {
-        const resp = await Company.get(req.params.handle);
-        return res.json({company: resp});
-    } catch (error) {
-        return next(error);
-    }
-})
 
-router.patch('/:handle', async(req, res, next) => {
+router.patch('/:handle', admin, async(req, res, next) => {
     try {
         if ('handle' in req.body) {
           throw new ExpressError('You are not allowed to change the handle.', 400);
@@ -66,11 +69,9 @@ router.patch('/:handle', async(req, res, next) => {
       }
 })
 
-router.delete('/:handle', async(req, res, next) => {
+router.delete('/:handle', admin, async(req, res, next) => {
     await Company.remove(req.params.handle);
     return res.json({message: "Company deleted"});
-    //company.remove()
-    //return {message: "Company deleted"}
 })
 
 module.exports = router;
