@@ -1,4 +1,4 @@
-\c jobly
+\c jobly-test
 
 DROP TABLE IF EXISTS companies CASCADE;
 DROP TABLE IF EXISTS jobs CASCADE;
@@ -31,19 +31,19 @@ CREATE TABLE users(
     is_admin BOOLEAN NOT NULL default FALSE
 );
 
-INSERT INTO companies
-VALUES('apple', 'Apple', 250, 'We make bad computers', 'google.com'),
-('pizza', 'Pizza Co.', 10000, 'We make bad pizza', 'pizza.org'),
-('biden', 'Biden Biz.', 600, 'We make good choices', 'biden.com');
+-- INSERT INTO companies
+-- VALUES('apple', 'Apple', 250, 'We make bad computers', 'google.com'),
+-- ('pizza', 'Pizza Co.', 10000, 'We make bad pizza', 'pizza.org'),
+-- ('biden', 'Biden Biz.', 600, 'We make good choices', 'biden.com');
 
-INSERT INTO jobs(title, salary, equity, company_handle)
-VALUES('cleaner', 49.15, .5, 'apple'),
-('builder guy', 15.83, .2, 'pizza'),
-('machine guy', 20.59, .3, 'biden');
+-- INSERT INTO jobs(title, salary, equity, company_handle)
+-- VALUES('cleaner', 49.15, .5, 'apple'),
+-- ('builder guy', 15.83, .2, 'pizza'),
+-- ('machine guy', 20.59, .3, 'biden');
 
-INSERT INTO users
-VALUES('jreid', 'pizza', 'James', 'Reid', 'jreidmke@gamil.com', 'blah', true),
-('mariaa', 'pizza', 'Maria', 'Aldapa', 'mariaa@gmail.com', 'blah', FALSE);
+-- INSERT INTO users
+-- VALUES('jreid', 'pizza', 'James', 'Reid', 'jreidmke@gamil.com', 'blah', true),
+-- ('mariaa', 'pizza', 'Maria', 'Aldapa', 'mariaa@gmail.com', 'blah', FALSE);
 
 SELECT * FROM companies;
 SELECT * FROM jobs;
