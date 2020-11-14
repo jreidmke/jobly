@@ -37,7 +37,6 @@ afterAll(async() => {
 describe("GET /users", () => {
     test("should return list of all users", async() => {
         const resp = await request(app).get(`/users`);
-        console.log(user);
         expect(resp.statusCode).toBe(200);
         expect(resp.body[0].username).toBe(user.username);
         expect(resp.body[0].email).toBe(user.email);
@@ -77,8 +76,8 @@ describe("POST /users", () => {
 
         const getResp = await request(app).get(`/users/${data.username}`);
         expect(getResp.statusCode).toBe(200);
-        expect(getResp.body.username).toBe(data.username);
-        expect(getResp.body.email).toBe(data.email);
+        expect(getResp.body.username).toEqual(data.username);
+        expect(getResp.body.email).toEqual(data.email);
     })
 
     test("should return error with bad json", async() => {
@@ -118,5 +117,15 @@ describe("PATCH /users/:username", () => {
     test("should update selected user's attributes", async() => {
         const resp = await request(app).patch(`/users/${user.username}`).send({_token: token, first_name: "Jimmy"});
         expect(resp.body.first_name).toEqual("Jimmy");
+        const getResp = await request(app).get(`/users/${user.username}`);
+        expect(getResp.statusCode).toBe(200);
+        expect(getResp.body.first_name).toEqual("Jimmy");
+        expect(getResp.body.email).toEqual(user.email);
+    })
+
+    test("should not allow non-user to edit profile", async() => {
+        const resp = await request(app).patch(`/users/pizza`).send({_token: token, first_name: "Jimmy"});
+        expect(resp.statusCode).toBe(401);
+        expect(resp.body.message).toEqual('Only user can change or delete profile.');
     })
 })
