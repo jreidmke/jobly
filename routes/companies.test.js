@@ -23,9 +23,10 @@ beforeEach(async() => {
     const hashword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     data.password=hashword;
     const userResp = await request(app).post(`/users`).send(data);
-    token = resp.body.token;
+    token = userResp.body.token;
     user = data;
     let companyData = {
+        "_token": token,
         "handle": "burger",
         "name": "Burger Co.",
         "num_employees": 250,
@@ -34,6 +35,7 @@ beforeEach(async() => {
     }
     const companyResp = await request(app).post(`/companies`).send(companyData);
     company = companyResp.body.company;
+    company._token = token;
     console.log(company);
 });
 
@@ -47,8 +49,15 @@ afterAll(async() => {
     await db.end();
 })
 
+describe("GET /companies", () => {
+    test("returns a list of companies", async() => {
+        
+    })
+})
+
 describe("GET /companies/:handle", () => {
     test("returns info on selected company", async() => {
-        
+        const resp = await request(app).get(`/companies/${company.handle}`).send({_token: token})
+        expect(resp.statusCode).toBe(200);
     })
 })
