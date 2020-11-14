@@ -4,8 +4,8 @@
  * - table: where to make the query
  * - items: an object with keys of columns you want to update and values with
  *          updated values
- * - key: the column that we query by (e.g. username, handle, id)
- * - id: current record ID
+ * - key: the column that we query by (e.g. username, handle, id), the table's primary key.
+ * - id: current record ID, the primary key's value
  *
  * Returns object containing a DB query as a string, and array of
  * string values to be updated
@@ -27,17 +27,17 @@ function sqlForPartialUpdate(table, items, key, id) {
   }
 
   for (let column in items) {
-    columns.push(`${column}=$${idx}`);
+    columns.push(`${column}=$${idx}`);//here's where we make it a string.
     idx += 1;
   }
 
   // build query
   let cols = columns.join(", ");
-  let query = `UPDATE ${table} SET ${cols} WHERE ${key}=$${idx} RETURNING *`;
+  let query = `UPDATE ${table} SET ${cols} WHERE ${key}=$${idx} RETURNING *`;//so right here, the string could be UPDATE users SET first_name=$1 WHERE username=$2 RETURNING *
 
-  let values = Object.values(items);
-  values.push(id);
 
+  let values = Object.values(items);//then here, we array the items. 'ted123', 'Ted'
+  values.push(id);//push in the id last so as to set it as WHERE conditional,[ 'Jimmy', 'jim' ]
   return { query, values };
 }
 
