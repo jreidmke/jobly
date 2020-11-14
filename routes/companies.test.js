@@ -36,7 +36,6 @@ beforeEach(async() => {
     const companyResp = await request(app).post(`/companies`).send(companyData);
     company = companyResp.body.company;
     company._token = token;
-    console.log(company);
 });
 
 afterEach(async() => {
@@ -51,7 +50,9 @@ afterAll(async() => {
 
 describe("GET /companies", () => {
     test("returns a list of companies", async() => {
-        
+        const resp = await request(app).get(`/companies?search=${company.handle}`).send({_token:token});
+        expect(resp.statusCode).toBe(200);
+        expect(resp.body[0]).toEqual({handle: 'burger', name: 'Burger Co.'});
     })
 })
 
@@ -59,5 +60,7 @@ describe("GET /companies/:handle", () => {
     test("returns info on selected company", async() => {
         const resp = await request(app).get(`/companies/${company.handle}`).send({_token: token})
         expect(resp.statusCode).toBe(200);
+        expect(resp.body.company.name).toEqual("Burger Co.");
+        expect(resp.body.company.num_employees).toBe(250);
     })
 })
