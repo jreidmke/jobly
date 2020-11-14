@@ -90,8 +90,33 @@ describe("POST /users", () => {
     })
 })
 
-// describe("DELETE /users/:username", () => {
-//     test("should remove one user if user is specified user", async() => {
-//         const resp = await request(app)
-//     })
-// })
+describe("DELETE /users/:username", () => {
+    test("should remove one user if user is specified user", async() => {
+        const resp = await request(app).delete(`/users/${user.username}`).send({_token: token});
+        expect(resp.statusCode).toBe(200);
+        expect(resp.body).toEqual({message: 'User deleted'});
+    })
+
+    test("should not allow user to delete profile other than their own", async() => {
+        const data = {
+            "username": "ted",
+            "password": "pizza",
+            "first_name": "James",
+            "last_name": "Reid",
+            "email": "ted@gmail.com",
+            "photo_url": "google.com",
+            "is_admin": true
+        };
+        await request(app).post(`/users`).send(data);
+        const resp = await request(app).delete(`/users/${data.username}`).send({_token: token});
+        expect(resp.statusCode).toBe(401);
+        expect(resp.body.message).toEqual('Only user can change or delete profile.');
+    })
+})
+
+describe("PATCH /users/:username", () => {
+    test("should update selected user's attributes", async() => {
+        const resp = await request(app).patch(`/users/${user.username}`).send({_token: token, first_name: "Jimmy"});
+        expect(resp.body.first_name).toEqual("Jimmy");
+    })
+})
