@@ -49,8 +49,32 @@ afterAll(async() => {
 })
 
 describe("GET /companies", () => {
-    test("returns a list of companies", async() => {
+    test("returns a list of companies via handle search", async() => {
         const resp = await request(app).get(`/companies?search=${company.handle}`).send({_token:token});
+        expect(resp.statusCode).toBe(200);
+        expect(resp.body[0]).toEqual({handle: 'burger', name: 'Burger Co.'});
+    })
+
+    test("returns a list of companies via min and max employees", async() => {
+        const resp = await request(app).get(`/companies?min_employees=200&max_employees=500`).send({_token:token});
+        expect(resp.statusCode).toBe(200);
+        expect(resp.body[0]).toEqual({handle: 'burger', name: 'Burger Co.'});
+    })
+
+    test("returns 400 error with mathematically impossible min and max", async() => {
+        const resp = await request(app).get(`/companies?min_employees=500&max_employees=200`).send({_token:token});
+        expect(resp.statusCode).toBe(400);
+        expect(resp.body.message).toEqual('Min employees cannot be greater than max!');
+    })
+
+    test("returns a list of companies via min employees", async() => {
+        const resp = await request(app).get(`/companies?min_employees=200`).send({_token:token});
+        expect(resp.statusCode).toBe(200);
+        expect(resp.body[0]).toEqual({handle: 'burger', name: 'Burger Co.'});
+    })
+
+    test("returns a list of companies via max employees", async() => {
+        const resp = await request(app).get(`/companies?max_employees=500`).send({_token:token});
         expect(resp.statusCode).toBe(200);
         expect(resp.body[0]).toEqual({handle: 'burger', name: 'Burger Co.'});
     })
