@@ -7,6 +7,7 @@ const app = require("../app");
 const db = require("../db");
 
 let user;
+let token;
 
 beforeEach(async() => {
     let data = {
@@ -21,6 +22,7 @@ beforeEach(async() => {
     const hashword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     data.password=hashword;
     const resp = await request(app).post(`/users`).send(data);
+    token = resp.body.token;
     user = data;
 })
 
@@ -87,3 +89,9 @@ describe("POST /users", () => {
         expect(resp.statusCode).toBe(400);
     })
 })
+
+// describe("DELETE /users/:username", () => {
+//     test("should remove one user if user is specified user", async() => {
+//         const resp = await request(app)
+//     })
+// })
