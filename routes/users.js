@@ -47,6 +47,10 @@ router.post('/', async(req, res, next) => {
     }
 })
 
+//Works in tandem with User.update method to UPDATE USER DATA
+//uses `user` middleware to check if user is who they claim to be
+//If user is who they claim to be, will update data and return new user data
+//Else throw error
 router.patch('/:username', user, async(req, res, next) => {
     try {
         const validation = validate(req.body, updateUser);
@@ -59,6 +63,10 @@ router.patch('/:username', user, async(req, res, next) => {
     }
 })
 
+//Works in tandem with User.remove method to DELETE USER
+//uses `user` middleware to check if user is who they claim to be
+//If user is who they claim to be, will delete data and return message user deleted
+//Else throw error
 router.delete('/:username', user, async(req, res, next) => {
     try {
         await User.remove(req.params.username);
