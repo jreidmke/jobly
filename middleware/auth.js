@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 const ExpressError = require("../helpers/expressError");
 
+//Used to make sure user has jwt before allowing them to view requested information
 function auth(req, res, next) {
     try {
         const reqToken = req.body._token;
@@ -13,6 +14,7 @@ function auth(req, res, next) {
     }
 }
 
+//Used to ensure user is who they say they are before allowing them to change or delete user
 function user(req, res, next) {
     try {
         const reqToken = req.body._token;
@@ -27,6 +29,7 @@ function user(req, res, next) {
     }
 }
 
+//Used to ensure user is admin before allowing them to view admin protected data
 function admin(req, res, next) {
     try {
         const reqToken = req.body._token;
