@@ -67,7 +67,7 @@ class Company {
    }
 
    //GET METHOD
-   //Works in tandem with `/companies/handle` get route to RETURN COMPANYD DATA
+   //Works in tandem with `/companies/handle` get route to RETURN COMPANY DATA
    //If valid, returns company object with job list.
    //Otherwise, returns error
    static async get(handle) {
@@ -150,7 +150,7 @@ class Company {
 
     //REMOVE METHOD
     //Works in tandem with `/companies/handle` delete route to DELETE COMPANY
-    //Valid data will return company object
+    //Valid data will return company deleted message
     //Else error is thrown
     static async remove(handle) {
         const result = await db.query(

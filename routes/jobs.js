@@ -7,6 +7,10 @@ const updateJob = require('../schema/updateJob.json');
 const {auth, admin} = require('../middleware/auth');
 const router = express.Router();
 
+//Works in tandem with 4 Job methods (Job.search, Job.min_employees, Job.max_employees and Job.min_max_employees)
+//Returns a list of jobs that meet these conditionals
+//Uses auth middleware to ensure user is logged in and has JWT.
+
 router.get('/', auth, async(req, res, next) => {
     try {
         if('search' in req.query) {
@@ -26,6 +30,10 @@ router.get('/', auth, async(req, res, next) => {
     }
 })
 
+//Works in tandem with Job.get method to return specified job
+//Uses auth middleware to ensure user is logged in and has JWT.
+//If valid, returns job object.
+//Otherwise, returns error
 router.get('/:id', auth, async(req, res, next) => {
     try {
         return res.json(await Job.get(req.params.id));
@@ -34,6 +42,10 @@ router.get('/:id', auth, async(req, res, next) => {
     }
 })
 
+//Works in tandem with Job.create method to create job data.
+//Uses admin auth method to ensure user has admin abilities
+//If valid returns job data
+//Else throws error
 router.post('/', admin, async(req, res, next) => {
     try {
         const validation = validate(req.body, newJob);
@@ -46,6 +58,10 @@ router.post('/', admin, async(req, res, next) => {
     }
 })
 
+//Works in tandem with Job.update method to update job data.
+//Uses admin auth method to ensure user has admin abilities
+//If valid returns updated JSON
+//Else throws error
 router.patch('/:id', admin, async function(req, res, next) {
     try {
       if ('id' in req.body) {
@@ -62,6 +78,10 @@ router.patch('/:id', admin, async function(req, res, next) {
     }
   });
 
+//Works in tandem with Job.remove method to delete job
+//Uses admin auth method to ensure user has admin abilities
+//If valid returns updated JSON
+//Else throws error
 router.delete('/:id', admin, async(req, res, next) => {
     try {
         await Job.remove(req.params.id);

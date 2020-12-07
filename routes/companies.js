@@ -62,7 +62,7 @@ router.post('/', admin, async(req, res, next) => {
    }
 })
 
-//Works in tandem with Compnany.update method to update company data.
+//Works in tandem with Company.update method to update company data.
 //Uses admin auth method to ensure user has admin abilities
 //If valid returns updated JSON
 //Else throws error
