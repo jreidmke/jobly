@@ -5,20 +5,27 @@ const { BCRYPT_WORK_FACTOR } = require('../config');
 const sqlForPartialUpdate = require('../helpers/partialUpdate');
 
 class User {
+    //REGISTER METHOD
+    //Works in tandem with `/user` post route to create new user.
+    //adds new user
+    //valid JSON body returns user object.
+    //requires {username, password, first_name, last_name, email, photo_url} in JSON body
+    //is_admin prop defaults to false
+
     static async register({username, password, first_name, last_name, email, photo_url, is_admin=false}) {
 
-        const pkCheck = await db.query(
+        const duplicateCheck = await db.query( //checks to make sure if username property is unique.
             `SELECT *
             FROM users
             WHERE username = $1`,
             [username]
         );
-        if(pkCheck.rows[0]) {
+        if(duplicateCheck.rows[0]) {
             throw new ExpressError(`Username already in use! Please select unique username.`, 400);
         }
 
 
-        let hashword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+        let hashword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR); //use bcrypt has method to create hashed password to save to user table.
         const resp = await db.query(
             `INSERT INTO users
             VALUES($1, $2, $3, $4, $5, $6, $7)
@@ -28,6 +35,9 @@ class User {
         return resp.rows[0];
     }
 
+    //AUTHENTICATE METHOD
+    //Works in tandem with `/` post route
+    //
     static async authenticate(username, password) {
         const result = await db.query(
             `SELECT password
@@ -65,13 +75,13 @@ class User {
     }
 
     static async remove(username) {
-        const pkCheck = await db.query(
+        const usernameCheck = await db.query(
             `SELECT *
             FROM users
             WHERE username=$1`,
             [username]
         );
-        if(pkCheck.rows.length === 0) {
+        if(usernameCheck.rows.length === 0) {
             throw new ExpressError('Invalid username', 404);
         }
 

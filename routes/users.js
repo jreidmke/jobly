@@ -25,6 +25,9 @@ router.get('/:username', async(req, res, next) => {
     }
 })
 
+//Works in tandem with User.register method.
+//If all data valid and username unique, will return JWT
+//Else, will return error message. 
 router.post('/', async(req, res, next) => {
     try {
         const validation = validate(req.body, newUser);
