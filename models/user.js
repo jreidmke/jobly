@@ -6,7 +6,7 @@ const sqlForPartialUpdate = require('../helpers/partialUpdate');
 
 class User {
     //REGISTER METHOD
-    //Works in tandem with `/user` post route to create new user.
+    //Works in tandem with `/user` post route to CREATE NEW USER.
     //adds new user
     //valid JSON body returns user object.
     //requires {username, password, first_name, last_name, email, photo_url} in JSON body
@@ -36,8 +36,9 @@ class User {
     }
 
     //AUTHENTICATE METHOD
-    //Works in tandem with `/` post route
-    //
+    //Works in tandem with `/login` post route to LOGIN USER
+    //if Login cred is valid, will return user
+    //Else returns error
     static async authenticate(username, password) {
         const result = await db.query(
             `SELECT password
@@ -53,6 +54,9 @@ class User {
         throw new ExpressError('Invalid credentials!', 401);
     }
 
+    //ALL METHOD
+    //returns a list of ALL USERS
+    //works in tandem with `/users` get method
     static async all() {
         const resp = await db.query(
             `SELECT username, first_name, last_name, email
@@ -61,6 +65,9 @@ class User {
         return resp.rows;
     }
 
+    //GET METHOD
+    //returns single user based on query parameter
+    //works in tandem with `/users/username` get route
     static async get(username) {
         const resp = await db.query(
             `SELECT username, first_name, last_name, email, photo_url
@@ -74,6 +81,11 @@ class User {
         return resp.rows[0];
     }
 
+    //REMOVE METHOD
+    //works in tandem with `/users/username` delete route to DELETE USER
+    //uses `user` middleware to check if user is who they claim to be
+    //If user inputs valid creds, will delete user.
+    //Else will throw an error
     static async remove(username) {
         const usernameCheck = await db.query(
             `SELECT *
@@ -91,6 +103,12 @@ class User {
             [username]
         );
     }
+
+    //UPDATE METHOD
+    //works in tandem with `/users/username` patch route to UPDATE USER DATA
+    //uses `user` middleware to check if user is who they claim to be
+    //If user inputs valid creds, will update specified user data.
+    //Else will throw an error
 
     static async update(username, data) {
         if (data.password) {

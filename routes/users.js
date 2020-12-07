@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require('../config');
 const {user} = require('../middleware/auth');
 
+//Works in tandem with User.all method to return list of ALL USERS
+//will return all public data (username, first_name, last_name, email)
 router.get('/', async(req, res, next) => {
     try {
         return res.json(await User.all());
@@ -17,6 +19,8 @@ router.get('/', async(req, res, next) => {
     }
 })
 
+//Work in tandem with User.get method to return SINGLE USER
+//will return all public data (username, first_name, last_name, email)
 router.get('/:username', async(req, res, next) => {
     try {
         return res.json(await User.get(req.params.username));
@@ -27,7 +31,7 @@ router.get('/:username', async(req, res, next) => {
 
 //Works in tandem with User.register method.
 //If all data valid and username unique, will return JWT
-//Else, will return error message. 
+//Else, will return error message.
 router.post('/', async(req, res, next) => {
     try {
         const validation = validate(req.body, newUser);
