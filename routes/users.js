@@ -19,7 +19,7 @@ router.get('/', async(req, res, next) => {
     }
 })
 
-//Work in tandem with User.get method to return SINGLE USER
+//Works in tandem with User.get method to return SINGLE USER
 //will return all public data (username, first_name, last_name, email)
 router.get('/:username', async(req, res, next) => {
     try {

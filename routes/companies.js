@@ -7,7 +7,9 @@ const newCompany = require('../schema/newCompany.json');
 const updateCompany = require('../schema/updateCompany.json');
 const {auth, admin} = require('../middleware/auth');
 
-
+//Works in tandem with 4 Company methods (Company.search, Company.min_employees, Company.max_employees and Company.min_max_employees)
+//Returns a list of companies that meet these conditionals
+//Uses auth middleware to ensure user is logged in and has JWT.
 router.get('/', auth, async(req, res, next) => {
     try {
         if('search' in req.query) {
@@ -29,6 +31,10 @@ router.get('/', auth, async(req, res, next) => {
 
 })
 
+//Works in tandem with Company.get method to return specified comanpy
+//Uses auth middleware to ensure user is logged in and has JWT.
+//If valid, returns company object with job list.
+//Otherwise, returns error
 router.get('/:handle', auth, async(req, res, next) => {
     try {
         const resp = await Company.get(req.params.handle);
@@ -38,6 +44,10 @@ router.get('/:handle', auth, async(req, res, next) => {
     }
 })
 
+//Works in tandem with Compnany.create method to create company data.
+//Uses admin auth method to ensure user has admin abilities
+//If valid returns company data
+//Else throws error
 
 router.post('/', admin, async(req, res, next) => {
    try {
@@ -52,7 +62,10 @@ router.post('/', admin, async(req, res, next) => {
    }
 })
 
-
+//Works in tandem with Compnany.update method to update company data.
+//Uses admin auth method to ensure user has admin abilities
+//If valid returns updated JSON
+//Else throws error
 router.patch('/:handle', admin, async(req, res, next) => {
     try {
         if ('handle' in req.body) {
@@ -69,6 +82,10 @@ router.patch('/:handle', admin, async(req, res, next) => {
       }
 })
 
+//Works in tandem with Company.remove method to delete company
+//Uses admin auth method to ensure user has admin abilities
+//If valid returns updated JSON
+//Else throws error
 router.delete('/:handle', admin, async(req, res, next) => {
     await Company.remove(req.params.handle);
     return res.json({message: "Company deleted"});

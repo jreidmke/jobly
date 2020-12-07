@@ -4,6 +4,10 @@ const ExpressError = require("../helpers/ExpressError");
 const sqlForPartialUpdate = require("../helpers/partialUpdate");
 
 class Company {
+    //SEARCH METHOD
+    //used in tandem with `/companies` get route to return list of all companies
+    //as long as they are `LIKE` (sql Like) the search term passed in from query string
+    //if passes auth method, returns a list of companies that match this term
     static async search(term) {
         const resp = await db.query(
             `SELECT handle, name
@@ -14,6 +18,10 @@ class Company {
         return resp.rows;
     }
 
+    //MIN_EMPLOYEES METHOD
+    //used in tandem with `/companies` get route to return list of all companies
+    //as long as they have more employees than number passed in from query string
+    //if passes auth method, returns a list of companies that meet this conditional
    static async min_employees(min) {
         const resp = await db.query(`
             SELECT handle, name
@@ -24,6 +32,10 @@ class Company {
         return resp.rows;
    }
 
+    //MAX_EMPLOYEES METHOD
+    //used in tandem with `/companies` get route to return list of all companies
+    //as long as they have fewer employees than number passed in from query string
+    //if passes auth method, returns a list of companies that meet this conditional
    static async max_employees(max) {
         const resp = await db.query(`
         SELECT handle, name
@@ -34,6 +46,10 @@ class Company {
         return resp.rows;
    }
 
+    //MIN_MAX_EMPLOYEES METHOD
+    //used in tandem with `/companies` get route to return list of all companies
+    //as long as they have a number of employees that is between the numbers passed in from query string
+    //if passes auth method, returns a list of companies that meet this conditional
    static async min_max_employees(min, max) {
        console.log(min);
        console.log(max);
@@ -50,6 +66,10 @@ class Company {
        return resp.rows;
    }
 
+   //GET METHOD
+   //Works in tandem with `/companies/handle` get route to RETURN COMPANYD DATA
+   //If valid, returns company object with job list.
+   //Otherwise, returns error
    static async get(handle) {
        const comResp = await db.query(
             `SELECT handle, name, num_employees, description
@@ -74,6 +94,10 @@ class Company {
         return company;
    }
 
+    //UPDATE METHOD
+    //works in tandem with `/companies/handle` patch route to UPDATE COMPANY DATA
+    //If user inputs valid creds, will update specified COMPANY data.
+    //Else will throw an error
    static async update(handle, data) {
     let { query, values } = sqlForPartialUpdate(
       "companies",
@@ -92,6 +116,10 @@ class Company {
     return company;
   }
 
+  //CREATE METHOD
+  //Works in tandem with `/companies` post route to CREATE NEW COMPANY
+  //Valid data will return company object
+  //Else error is thrown
     static async create(data) {
         const check = await db.query(
             `SELECT handle
@@ -120,6 +148,10 @@ class Company {
           return result.rows[0];
     }
 
+    //REMOVE METHOD
+    //Works in tandem with `/companies/handle` delete route to DELETE COMPANY
+    //Valid data will return company object
+    //Else error is thrown
     static async remove(handle) {
         const result = await db.query(
             `DELETE FROM companies
