@@ -13,7 +13,6 @@ class User {
     //is_admin prop defaults to false
 
     static async register({username, password, first_name, last_name, email, photo_url, is_admin=false}) {
-
         const duplicateCheck = await db.query( //checks to make sure if username property is unique.
             `SELECT *
             FROM users
@@ -24,13 +23,12 @@ class User {
             throw new ExpressError(`Username already in use! Please select unique username.`, 400);
         }
 
-
         let hashword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR); //use bcrypt has method to create hashed password to save to user table.
         const resp = await db.query(
             `INSERT INTO users
-            VALUES($1, $2, $3, $4, $5, $6, $7)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING username, first_name, last_name, email, is_admin`,
-            [username, hashword, first_name, last_name, email, photo_url, is_admin]
+            [username, hashword, first_name, last_name, email, photo_url]
         );
         return resp.rows[0];
     }

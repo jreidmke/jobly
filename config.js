@@ -1,19 +1,17 @@
-/** Shared config for application; can be req'd many places. */
-
 require("dotenv").config();
 
 const SECRET_KEY = process.env.SECRET_KEY || "test";
 
 const PORT = +process.env.PORT || 3000;
 
-let baseURL = `postgresql://postgres:postgres4@localhost/`;
+// let baseURL = `postgresql://postgres:abc123@localhost/`;
 
 let DB_URI;
 
 if (process.env.NODE_ENV === "test") {
-  DB_URI = `${baseURL}jobly-test`;
+  DB_URI = `jobly-test`;
 } else {
-  DB_URI = process.env.DATABASE_URL || `${baseURL}jobly`;
+  DB_URI = process.env.DATABASE_URL || `jobly`;
 }
 
 const BCRYPT_WORK_FACTOR = 12;

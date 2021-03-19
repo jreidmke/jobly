@@ -42,8 +42,8 @@ VALUES('cleaner', 49.15, .5, 'apple'),
 ('machine guy', 20.59, .3, 'candy');
 
 INSERT INTO users
-VALUES('jreid', 'pizza', 'James', 'Reid', 'jreidmke@gamil.com', 'blah', TRUE),
-('mariaa', 'pizza', 'Maria', 'Aldapa', 'mariaa@gmail.com', 'blah', FALSE);
+VALUES('jreid', '$2a$12$tjGXX/ncfKUIbz88ucgMouIhhL8SaQb0/DfnI1V0jingQonofTSha', 'James', 'Reid', 'jreidmke@gamil.com', 'blah', TRUE),
+('mariaa', '$2a$12$tjGXX/ncfKUIbz88ucgMouIhhL8SaQb0/DfnI1V0jingQonofTSha', 'Maria', 'Aldapa', 'mariaa@gmail.com', 'blah', FALSE);
 
 SELECT * FROM companies;
 SELECT * FROM jobs;
